@@ -1,10 +1,96 @@
-import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../utils/app_color.dart';
+import '../cubit/layout_cubit.dart';
+import '../cubit/layout_state.dart';
 class CartTab extends StatelessWidget {
   const CartTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(color: Colors.blue,);
+    final cubit = BlocProvider.of<LayoutCubit>(context);
+    return BlocConsumer<LayoutCubit,LayoutStates>(
+        listener:(context,state){},
+        builder:(context,state){
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 10),
+            child: Column(
+              children:
+              [
+                Expanded(
+                    child: cubit.carts.isNotEmpty ?
+                    ListView.separated(
+                        itemCount: cubit.carts.length,
+                        separatorBuilder: (context,index){
+                          return const SizedBox(height: 12,);
+                        },
+                        itemBuilder: (context,index){
+                          return Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: const BoxDecoration(
+                                color: fourthColor
+                            ),
+                            child: Row(
+                              children:
+                              [
+                                Image.network(cubit.carts[index].image!,height: 100,width: 100,fit: BoxFit.fill,),
+                                const SizedBox(width: 12.5),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children:
+                                    [
+                                      Text(cubit.carts[index].name!,style: const TextStyle(color: mainColor,fontSize: 17,fontWeight: FontWeight.bold,overflow: TextOverflow.ellipsis),),
+                                      const SizedBox(height: 5,),
+                                      Row(
+                                        children:
+                                        [
+                                          Text("${cubit.carts[index].price!} \$"),
+                                          const SizedBox(width: 5,),
+                                          if( cubit.carts[index].price != cubit.carts[index].oldPrice)
+                                            Text("${cubit.carts[index].oldPrice!} \$",style: const TextStyle(decoration: TextDecoration.lineThrough),),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 5,),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children:
+                                        [
+                                          OutlinedButton(
+                                              onPressed: ()
+                                              {
+                                                cubit.addOrRemoveFromFavorites(productID: cubit.carts[index].id.toString());
+                                              },
+                                              child: Icon(
+                                                Icons.favorite,
+                                                color: cubit.favoritesID.contains(cubit.carts[index].id.toString()) ? Colors.red : Colors.grey,
+                                              )
+                                          ),
+                                          GestureDetector(
+                                            onTap: (){},
+                                            child: const Icon(Icons.delete,color: Colors.red,),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        }
+                    ) :
+                    const Center(child: Text("Loading....."),)
+                ),
+                SizedBox(
+                  child: Text("TotalPrice : ${cubit.totalPrice} \$",style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: mainColor),),
+                )
+              ],
+            ),
+          );
+        }
+    );
   }
 }

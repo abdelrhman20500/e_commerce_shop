@@ -239,4 +239,57 @@ class LayoutCubit extends Cubit<LayoutStates> {
       emit(FailedToAddOrRemoveItemFromFavoritesState()); // Emit exception failure state
     }
   }
+
+  List<ProductModel> carts = []; // List to store products in the cart
+  int totalPrice = 0; // Variable to store the total price
+
+  /// Fetch cart data using Dio
+  Future<void> getCarts() async {
+
+    try {
+      // Initialize Dio instance
+      Dio dio = Dio(
+        BaseOptions(
+          baseUrl: 'https://student.valuxapps.com/api', // Base URL
+          receiveDataWhenStatusError: true,
+          headers: {
+            "Authorization": SharedPref.getToken(), // Token for authorization
+            "lang": "en", // Language preference
+          },
+        ),
+      );
+
+      // GET request to fetch cart data
+      final response = await dio.get('/carts');
+
+      if (response.statusCode == 200) {
+        final responseBody = response.data;
+
+        if (responseBody['status'] == true) {
+          // Clear the current cart and totalPrice
+          carts.clear();
+          totalPrice = 0;
+
+          // Loop through and parse cart items
+          for (var item in responseBody['data']['cart_items']) {
+            carts.add(ProductModel.fromJson(data: item['product']));
+          }
+
+          // Update total price
+          totalPrice = responseBody['data']['total'];
+
+          print("Carts length is: ${carts.length}, Total Price: $totalPrice");
+          emit(GetCartsSuccessState()); // Emit success state
+        } else {
+          emit(FailedToGetCartsState()); // Emit failure with message
+        }
+      } else {
+        emit(FailedToGetCartsState()); // Emit failure state
+      }
+    } catch (e) {
+      emit(FailedToGetCartsState());
+    }
+  }
+
 }
+

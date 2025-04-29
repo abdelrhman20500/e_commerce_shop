@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LayoutCubit()..getBannersData()..getCategoriesData()..getProducts(),
+      create: (context) => LayoutCubit()..getBannersData()..getCategoriesData()..getProducts()..getCarts(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: SharedPref.getToken()== null ?LoginScreen(): const HomeScreen(),
