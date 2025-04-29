@@ -1,7 +1,11 @@
 import 'package:e_commerce_shop/ui/screens/auth_screen/login_screen.dart';
+import 'package:e_commerce_shop/ui/screens/home_screen/home_screen.dart';
+import 'package:e_commerce_shop/widgets/shared_pref.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main()async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPref.init();
   runApp(const MyApp());
 }
 
@@ -12,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: SharedPref.getToken()== null ?LoginScreen(): const HomeScreen(),
     );
   }
 }

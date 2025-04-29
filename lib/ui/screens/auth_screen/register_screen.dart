@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../widgets/alert_dialog.dart';
 import '../../utils/app_color.dart';
+import '../home_screen/home_screen.dart';
 import 'auth_cubit/auth_cubit.dart';
 import 'auth_cubit/auth_state.dart';
 import 'login_screen.dart';
@@ -54,7 +55,7 @@ class RegisterScreen extends StatelessWidget {
           {
             Navigator.pop(context);   // عشان يخرج من alertDialog
             print("success");
-            // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const HomeScreen()));
           }
         },
         builder: (context,state){

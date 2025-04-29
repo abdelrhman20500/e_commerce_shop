@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:e_commerce_shop/widgets/shared_pref.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:e_commerce_shop/ui/screens/auth_screen/auth_cubit/auth_state.dart';
 
@@ -32,12 +33,13 @@ class AuthCubit extends Cubit<AuthStates> {
 
       if (response.statusCode == 200) {
         final responseData = response.data;
-
+        final token = responseData['data']['token'];
         // Check if login was successful based on the response
         if (responseData['status'] == true) {
           print("User login success: ${responseData['data']}");
 
-          // No token logic here - only emit success
+         SharedPref.saveToken(token);
+         print(token);
           emit(LoginSuccessState()); // Emit success state
         } else {
           print("Failed to login, reason: ${responseData['message']}");
@@ -75,6 +77,8 @@ class AuthCubit extends Cubit<AuthStates> {
       if (response.statusCode == 200) {
         final data = response.data;
         if (data['status'] == true) {
+          final token = data['data']['token'];
+          SharedPref.saveToken(token);
           emit(RegisterSuccessState()); // Emit success state
         } else {
           emit(RegisterFailureState(message:data["message"])); // Emit failure state on exception

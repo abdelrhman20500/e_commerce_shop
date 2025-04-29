@@ -1,4 +1,5 @@
 import 'package:e_commerce_shop/ui/screens/auth_screen/register_screen.dart';
+import 'package:e_commerce_shop/ui/screens/home_screen/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +56,7 @@ class LoginScreen extends StatelessWidget {
             else if ( state is LoginSuccessState )
             {
               Navigator.pop(context);   // عشان يخرج من alertDialog
-              // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LayoutScreen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
             }
           },
           builder: (context,state){
