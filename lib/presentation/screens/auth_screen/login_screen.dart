@@ -1,11 +1,12 @@
-import 'package:e_commerce_shop/ui/screens/auth_screen/register_screen.dart';
-import 'package:e_commerce_shop/ui/screens/home_screen/home_screen.dart';
+
+import 'package:e_commerce_shop/presentation/screens/auth_screen/register_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../widgets/alert_dialog.dart';
 import '../../../widgets/login_text_field.dart';
 import '../../utils/app_color.dart';
+import '../home_screen/home_screen.dart';
 import 'auth_cubit/auth_cubit.dart';
 import 'auth_cubit/auth_state.dart';
 

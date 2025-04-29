@@ -1,7 +1,9 @@
-import 'package:e_commerce_shop/ui/screens/auth_screen/login_screen.dart';
-import 'package:e_commerce_shop/ui/screens/home_screen/home_screen.dart';
+import 'package:e_commerce_shop/presentation/screens/auth_screen/login_screen.dart';
+import 'package:e_commerce_shop/presentation/screens/home_screen/home_screen.dart';
+import 'package:e_commerce_shop/presentation/screens/home_screen/tabs/cubit/layout_cubit.dart';
 import 'package:e_commerce_shop/widgets/shared_pref.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main()async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,9 +16,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SharedPref.getToken()== null ?LoginScreen(): const HomeScreen(),
+    return BlocProvider(
+      create: (context) => LayoutCubit()..getBannersData()..getCategoriesData()..getProducts(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SharedPref.getToken()== null ?LoginScreen(): const HomeScreen(),
+      ),
     );
   }
 }

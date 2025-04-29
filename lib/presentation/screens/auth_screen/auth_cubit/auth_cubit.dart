@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:e_commerce_shop/widgets/shared_pref.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:e_commerce_shop/ui/screens/auth_screen/auth_cubit/auth_state.dart';
+
+import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthStates> {
   AuthCubit() : super(AuthInitialState());
